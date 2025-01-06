@@ -80,10 +80,46 @@ namespace EMS.Repository.InfrastructureBase
             }
 
         }
-        public virtual DbModel GetById(Guid id)
+        public virtual void Update(DbModel entity)
         {
-            return _dbset.Find(id);
+            try
+            {
+                BeginTransaction();
+                _dbset.Attach(entity);
+                _dataContext.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                RollbackTransaction();
+                throw ex;
+            }
+            finally
+            {
+                EndTransaction();
+            }
+           
         }
+
+        public virtual void Delete(DbModel entity)
+        {
+            try
+            {
+                BeginTransaction();
+                _dbset.Remove(entity);
+                CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                RollbackTransaction();
+                throw ex;
+            }
+            finally
+            {
+                EndTransaction();
+            }
+        }
+        
         public virtual IEnumerable<DbModel> GetAll()
         {
             return _dbset;

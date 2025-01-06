@@ -9,5 +9,6 @@ namespace EMS.Repository.InfrastructureBase
     public interface IRepository<DbModel> where DbModel : class
     {
         void Add(DbModel entity);
+        void Update(DbModel entity);
     }
 }
