@@ -1,0 +1,201 @@
+USE [master]
+GO
+/****** Object:  Database [EMS]    Script Date: 1/8/2025 7:00:01 AM ******/
+CREATE DATABASE [EMS]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'EMS', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\EMS.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'EMS_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\EMS_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [EMS] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [EMS].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [EMS] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [EMS] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [EMS] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [EMS] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [EMS] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [EMS] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [EMS] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [EMS] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [EMS] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [EMS] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [EMS] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [EMS] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [EMS] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [EMS] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [EMS] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [EMS] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [EMS] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [EMS] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [EMS] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [EMS] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [EMS] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [EMS] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [EMS] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [EMS] SET  MULTI_USER 
+GO
+ALTER DATABASE [EMS] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [EMS] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [EMS] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [EMS] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [EMS] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [EMS] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [EMS] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [EMS] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [EMS]
+GO
+/****** Object:  Table [dbo].[Department]    Script Date: 1/8/2025 7:00:01 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Department](
+	[DepartmentId] [uniqueidentifier] NOT NULL,
+	[DepartmentName] [nvarchar](100) NOT NULL,
+	[ManagerId] [uniqueidentifier] NOT NULL,
+	[Budget] [decimal](18, 2) NOT NULL,
+	[CreatedAt] [datetime] NOT NULL,
+	[LastUpdatedAt] [datetime] NULL,
+ CONSTRAINT [PK_Department] PRIMARY KEY CLUSTERED 
+(
+	[DepartmentId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Employee]    Script Date: 1/8/2025 7:00:01 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employee](
+	[EmployeeId] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[Email] [nvarchar](100) NOT NULL,
+	[Phone] [nvarchar](20) NOT NULL,
+	[DepartmentId] [uniqueidentifier] NOT NULL,
+	[Position] [nvarchar](50) NOT NULL,
+	[JoiningDate] [datetime] NOT NULL,
+	[Status] [int] NOT NULL,
+	[CreatedAt] [datetime] NOT NULL,
+	[LastUpdatedAt] [datetime] NULL,
+ CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PerformanceReview]    Script Date: 1/8/2025 7:00:01 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PerformanceReview](
+	[PerformanceReviewId] [uniqueidentifier] NOT NULL,
+	[EmployeeId] [uniqueidentifier] NOT NULL,
+	[ReviewDate] [date] NOT NULL,
+	[ReviewScore] [int] NOT NULL,
+	[ReviewNote] [nvarchar](max) NULL,
+	[CreatedAt] [datetime] NOT NULL,
+	[LastUpdatedAt] [datetime] NULL,
+ CONSTRAINT [PK_PerformanceReview] PRIMARY KEY CLUSTERED 
+(
+	[PerformanceReviewId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Department] ADD  CONSTRAINT [DF_Department_CreatedAt]  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+ALTER TABLE [dbo].[Employee] ADD  CONSTRAINT [DF_Employee_CreatedAt]  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+ALTER TABLE [dbo].[PerformanceReview] ADD  CONSTRAINT [DF_PerformanceReview_CreatedAt]  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+ALTER TABLE [dbo].[Department]  WITH CHECK ADD  CONSTRAINT [FK_Department_Employee] FOREIGN KEY([ManagerId])
+REFERENCES [dbo].[Employee] ([EmployeeId])
+GO
+ALTER TABLE [dbo].[Department] CHECK CONSTRAINT [FK_Department_Employee]
+GO
+ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Department_DepartmentId] FOREIGN KEY([DepartmentId])
+REFERENCES [dbo].[Department] ([DepartmentId])
+GO
+ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Department_DepartmentId]
+GO
+ALTER TABLE [dbo].[PerformanceReview]  WITH CHECK ADD  CONSTRAINT [FK_Employee_EmployeeId] FOREIGN KEY([EmployeeId])
+REFERENCES [dbo].[Employee] ([EmployeeId])
+GO
+ALTER TABLE [dbo].[PerformanceReview] CHECK CONSTRAINT [FK_Employee_EmployeeId]
+GO
+/****** Object:  StoredProcedure [dbo].[AveragePerformanceScore]    Script Date: 1/8/2025 7:00:01 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[AveragePerformanceScore] 
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+SELECT 
+    d.DepartmentName,
+    AVG(pr.ReviewScore) AS AverageScore
+FROM 
+    Department d
+INNER JOIN 
+    Employee e ON d.DepartmentId = e.DepartmentId
+INNER JOIN 
+    PerformanceReview pr ON e.EmployeeId = pr.EmployeeId
+GROUP BY 
+    d.DepartmentName
+ORDER BY 
+    AverageScore DESC;
+
+END
+GO
+USE [master]
+GO
+ALTER DATABASE [EMS] SET  READ_WRITE 
+GO
