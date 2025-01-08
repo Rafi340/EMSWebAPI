@@ -18,6 +18,20 @@ namespace EMS.Model.EMS
         public DateTime ReviewDate { get; set; }
         public int ReviewScore { get; set; }
         public string? ReviewNote { get; set; }
-        public Employee Employee { get; set; }
+        public Employee? Employee { get; set; }
+    }
+
+    public class PerformanceReviewViewModel : EMSBaseModel
+    {
+        [Key]
+        public Guid PerformanceReviewId { get; set; }
+        [ForeignKey("Employee")]
+        [Required]
+        public Guid EmployeeId { get; set; }
+        public string Name { get; set; }
+        public DateTime ReviewDate { get; set; }
+        public int ReviewScore { get; set; }
+        public string? ReviewNote { get; set; }
+        public Employee? Employee { get; set; }
     }
 }

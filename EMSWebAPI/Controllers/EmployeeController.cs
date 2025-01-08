@@ -30,10 +30,13 @@ namespace EMSWebAPI.Controllers
         
         }
         [HttpGet("GetAll")]
-        public async Task<PagedResponse<IQueryable<EmployeeViewModel>>> GetAll(PagedFilter filter)
+        public async Task<PagedResponse<IQueryable<EmployeeViewModel>>> GetAll(int page, int per_page)
         {
             try
             {
+                PagedFilter filter = new PagedFilter(1,10);
+                filter.page = page;
+                filter.per_page = per_page;
                 var getEmployee = _employeeRepository.GetAll(filter);
                 return getEmployee;
             }
@@ -50,6 +53,34 @@ namespace EMSWebAPI.Controllers
             {
                 _employeeRepository.Update(employee);
                 return employee;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        [HttpPost("Delete")]
+        public StatusModel Delete(Guid Id)
+        {
+            try
+            {
+                var SoftDelete = _employeeRepository.SoftDelete(Id);
+                return SoftDelete;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        [HttpGet("Dropdown")]
+        public List<Employee> Dropdown(int page, int per_page)
+        {
+            try
+            {
+                var dropdown = _employeeRepository.Dropdown();
+                return dropdown;
             }
             catch (Exception ex)
             {

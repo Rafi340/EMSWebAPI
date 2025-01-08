@@ -34,7 +34,7 @@ namespace EMS.Repository.Repository.Implementation
                                    Status = employee.Status,
                                    CreatedAt = employee.CreatedAt,
                                    LastUpdatedAt = employee.LastUpdatedAt,
-                               }).AsQueryable();
+                               }).OrderByDescending(O => O.LastUpdatedAt).AsQueryable();
             int total= getEmployee.Count();
             getEmployee = getEmployee.Skip(filter.page > 0 ? (filter.page - 1) * filter.per_page : 0)
                          .Take(filter.per_page > 0 ? filter.per_page : total);
@@ -53,6 +53,23 @@ namespace EMS.Repository.Repository.Implementation
                 roundedTotalPages,
                 null
                 );
+        }
+
+        public StatusModel SoftDelete(Guid Id)
+        {
+            var GetEmployee = GetById(Id);
+            if(GetEmployee != null)
+            {
+                BeginTransaction();
+                GetEmployee.Status = 0;
+                CommitTransaction();
+                return new StatusModel { Status = true, Message = "Deleted Sucessfully" };
+            }
+            return new StatusModel { Status = false, Message = "No Data" };
+        }
+        public List<Employee> Dropdown()
+        {
+            return DataContext.Employee.ToList();
         }
     }
 }

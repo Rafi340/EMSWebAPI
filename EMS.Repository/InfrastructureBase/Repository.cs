@@ -147,5 +147,9 @@ namespace EMS.Repository.InfrastructureBase
             return dataTable;
         }
 
+        public DbModel? GetById(Guid Id)
+        {
+            return _dbset?.Find(Id);
+        }
     }
 }

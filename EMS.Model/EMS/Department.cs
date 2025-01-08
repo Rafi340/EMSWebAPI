@@ -20,4 +20,16 @@ namespace EMS.Model.EMS
         public Employee? Manager { get; set; }
         public List<Employee>? Employee { get; set; }
     }
+
+    public class DepartmentViewModel : EMSBaseModel
+    {
+        [Key]
+        public Guid DepartmentId { get; set; }
+   
+        public string DepartmentName { get; set; }
+       
+        public Guid ManagerId { get; set; }
+        public string ManagerName { get; set; }
+        public decimal Budget { get; set; }
+    }
 }

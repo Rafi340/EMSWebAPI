@@ -25,14 +25,33 @@ builder.Services.AddOpenApi(options =>
 
 builder.Services.AddScoped<IDbFactory, DbFactory>();
 builder.Services.AddKeyedScoped<IEmployeeRepository, EmployeeRepository>("Employee");
+builder.Services.AddKeyedScoped<IDepartmentRepository, DepartmentRepository>("Department");
+builder.Services.AddKeyedScoped<IPerformanceReviewRepository, PerformanceReviewRepository>("PerformanceReview");
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "https://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseCors("AllowAll");
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

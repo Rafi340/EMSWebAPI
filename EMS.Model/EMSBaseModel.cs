@@ -5,7 +5,7 @@ namespace EMS.Model
 {
     public class EMSBaseModel
     {
-       public DateTime CreatedAt {  get; set; }
-       public DateTime? LastUpdatedAt { get; set; }
+       public DateTime? CreatedAt {  get; set; } = DateTime.UtcNow;
+       public DateTime? LastUpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

@@ -9,11 +9,8 @@ using System.Threading.Tasks;
 
 namespace EMS.Repository.Repository.Interface
 {
-    public interface IEmployeeRepository : IRepository<Employee>
+    public interface IPerformanceReviewRepository : IRepository<PerformanceReview>
     {
-        PagedResponse<IQueryable<EmployeeViewModel>> GetAll(PagedFilter filter);
-        StatusModel SoftDelete(Guid EmployeeId);
-        List<Employee> Dropdown();
-
+        PagedResponse<IQueryable<PerformanceReviewViewModel>> GetAll(PagedFilter filter);
     }
 }

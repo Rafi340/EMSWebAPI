@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMS.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,7 @@ namespace EMS.Repository.InfrastructureBase
     {
         void Add(DbModel entity);
         void Update(DbModel entity);
+        IEnumerable<DbModel> GetAll();
+        DbModel GetById(Guid id);
     }
 }
