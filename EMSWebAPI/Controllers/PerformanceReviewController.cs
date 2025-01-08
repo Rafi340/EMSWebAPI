@@ -11,18 +11,18 @@ namespace EMSWebAPI.Controllers
     [ApiController]
     public class PerformanceReviewController : ControllerBase
     {
-        private readonly IPerformanceReviewRepository _PerformanceReviewRepository;
+        private readonly IPerformanceReviewRepository _performanceReviewRepository;
         private readonly ILogger<PerformanceReviewController> _logger;
-        public PerformanceReviewController(ILogger<PerformanceReviewController> logger, [FromKeyedServices("PerformanceReview")] IPerformanceReviewRepository PerformanceReviewRepository) 
+        public PerformanceReviewController(ILogger<PerformanceReviewController> logger,  IPerformanceReviewRepository performanceReviewRepository) 
         {
             _logger = logger;
-            _PerformanceReviewRepository = PerformanceReviewRepository;
+            _performanceReviewRepository = performanceReviewRepository;
         }
         [HttpPost("Create")]
         public PerformanceReview Create(PerformanceReview PerformanceReview) {
             try
             {
-                 _PerformanceReviewRepository.Add(PerformanceReview);
+                 _performanceReviewRepository.Add(PerformanceReview);
                 return PerformanceReview;
             }
             catch (Exception ex) {
@@ -36,7 +36,7 @@ namespace EMSWebAPI.Controllers
         {
             try
             {
-                _PerformanceReviewRepository.Update(entity);
+                _performanceReviewRepository.Update(entity);
                 return entity;
             }
             catch (Exception ex)
@@ -51,7 +51,7 @@ namespace EMSWebAPI.Controllers
             try
             {
                 PagedFilter filter = new PagedFilter(page, per_page);
-                var getEmployee = _PerformanceReviewRepository.GetAll(filter);
+                var getEmployee = _performanceReviewRepository.GetAll(filter);
                 return getEmployee;
             }
             catch (Exception ex)

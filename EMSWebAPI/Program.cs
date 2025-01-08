@@ -26,7 +26,7 @@ builder.Services.AddOpenApi(options =>
 builder.Services.AddScoped<IDbFactory, DbFactory>();
 builder.Services.AddKeyedScoped<IEmployeeRepository, EmployeeRepository>("Employee");
 builder.Services.AddKeyedScoped<IDepartmentRepository, DepartmentRepository>("Department");
-builder.Services.AddKeyedScoped<IPerformanceReviewRepository, PerformanceReviewRepository>("PerformanceReview");
+builder.Services.AddScoped<IPerformanceReviewRepository, PerformanceReviewRepository>();
 
 builder.Services.AddCors(options =>
 {
